@@ -1,0 +1,52 @@
+from threading import Timer
+import tweepy
+import os
+import playsound
+import speech_recognition as sr
+from gtts import gTTS
+import tweepy
+import time
+from array import array
+
+import tkinter as tk
+from tkinter import filedialog, Text
+import os
+
+from tweepy.streaming import StreamListener
+from tweepy import Stream
+from tweepy import OAuthHandler
+
+import keyboard
+
+import TwitterCredentials
+import string
+import random
+
+
+#text =""
+#def hello():
+    #global text
+    #text +="."
+    #print(f"{text}")
+    #Timer(5, hello).start()
+
+#hello()
+auth = tweepy.OAuthHandler(TwitterCredentials.consumer_key, TwitterCredentials.consumer_secret)
+auth.set_access_token(TwitterCredentials.access_token, TwitterCredentials.access_token_secret)
+
+api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
+
+user = api.me()
+
+search = "madewithunity"
+nrTweets = 20000
+
+for tweet in tweepy.Cursor(api.search, search).items(nrTweets):
+    try:
+        print("tweet liked")
+        tweet.retweet()
+        time.sleep(1200)#this is seconds
+    except tweepy.TweepError as e:
+        print(e.reason)
+    except StopIteration:
+        break
